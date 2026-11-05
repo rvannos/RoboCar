@@ -9,12 +9,12 @@ This document provides complete hardware, wiring, firmware, and operational cont
 | Item | Model / Spec | Role in System |
 | :--- | :--- | :--- |
 | **Chassis & Motors** | `85131` 1/16–1/18 Toy RC Sports Car (Blue Shell) | Rear 130-can drive motor + Front 2-wire spring-centered DC steering motor (with factory orange ceramic EMI suppression capacitor across steering tabs) + 5× AA (`6.0V–7.5V`) chassis battery tray & ON/OFF switch |
-| **Primary Controller** | **SANXIXING ESP32-S3 DevKit N16R8** (44-pin pre-soldered, 16MB Flash, 8MB Octal PSRAM, Dual Type-C) | Runs non-blocking motor control, dual ultrasonic ISR driver, state machine, SoftAP (`RC-Rover` at `192.168.4.1`), and `AsyncWebServer` + `WebSocket` (`/ws`) server |
-| **Companion Camera** | **Aideepen ESP32-CAM-MB** (AI-Thinker ESP32-CAM OV2640 + CH340 Micro-USB programmer baseboard) | Joins `RC-Rover` Wi-Fi SoftAP as station at static IP `192.168.4.2` and streams CORS-enabled QVGA MJPEG video at `http://192.168.4.2:81/stream` |
-| **Motor Driver** | **BOJACK L298N Dual H-Bridge** | Drives rear traction motor (`OUT1`/`OUT2` + `ENA`/`IN1`/`IN2`) and front steering actuator (`OUT3`/`OUT4` + `ENB`/`IN3`/`IN4`) from the car's 5× AA battery pack |
-| **Ultrasonic Sensors (2×)** | **HC-SR04P** (`3.0V–5.5V` wide voltage, `2cm–450cm` range) | Native `3.3V` logic (no voltage dividers needed). Sensor #1 mounted on front bumper (`0°`); Sensor #2 mounted on rear bumper (`180°`) |
-| **Compute Power Bank** | **Nimble CHAMP LITE 5K (`NB-CPC-5K`)** (`5,200mAh` / `5V 3A` shared across `USB-A` & `Type-C`) | Powers both the `ESP32-S3` and `ESP32-CAM-MB` via USB cables; mounted over rear gearbox for rear wheel traction |
-| **Interconnects** | **Chanzon SYB-170 Mini Breadboards** (6-pack) + **ELEGOO 120pcs Dupont Jumpers** (`M-F`, `M-M`, `F-F`) | `3.3V` and common `GND` distribution rail + signal wiring |
+| **Primary Controller** | **SANXIXING ESP32-S3 DevKit N16R8** (44-pin pre-soldered, 16MB Flash, 8MB Octal PSRAM, Dual Type-C) — [Amazon](https://a.co/d/06Lic7if) | Runs non-blocking motor control, dual ultrasonic ISR driver, state machine, SoftAP (`RC-Rover` at `192.168.4.1`), and `AsyncWebServer` + `WebSocket` (`/ws`) server |
+| **Companion Camera** | **Aideepen ESP32-CAM-MB** (AI-Thinker ESP32-CAM OV2640 + CH340 Micro-USB programmer baseboard) — [Amazon](https://a.co/d/0dX22e7p) | Joins `RC-Rover` Wi-Fi SoftAP as station at static IP `192.168.4.2` and streams CORS-enabled QVGA MJPEG video at `http://192.168.4.2:81/stream` |
+| **Motor Driver** | **BOJACK L298N Dual H-Bridge** — [Amazon](https://a.co/d/09Fo7jR4) | Drives rear traction motor (`OUT1`/`OUT2` + `ENA`/`IN1`/`IN2`) and front steering actuator (`OUT3`/`OUT4` + `ENB`/`IN3`/`IN4`) from the car's 5× AA battery pack |
+| **Ultrasonic Sensors (2×)** | **HC-SR04P** (`3.0V–5.5V` wide voltage, `2cm–450cm` range) — [Amazon](https://a.co/d/0goX3Ql8) | Native `3.3V` logic (no voltage dividers needed). Sensor #1 mounted on front bumper (`0°`); Sensor #2 mounted on rear bumper (`180°`) |
+| **Compute Power Bank** | **Nimble CHAMP LITE 5K (`NB-CPC-5K`)** (`5,200mAh` / `5V 3A` shared across `USB-A` & `Type-C`) | Powers both the `ESP32-S3` and `ESP32-CAM` via a single USB cable; mounted externally on the rear deck |
+| **Interconnects** | **Chanzon SYB-170 Mini Breadboards** ([Amazon](https://a.co/d/09p7nb25)) + **ELEGOO 120pcs Dupont Jumpers** ([Amazon](https://a.co/d/0frG2YbZ)) | Direct `F-F` signal/power wiring + optional `3.3V`/`GND` distribution rail |
 
 ---
 

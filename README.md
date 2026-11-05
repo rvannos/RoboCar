@@ -10,6 +10,19 @@ See **[agent.md](agent.md)** for full hardware context, assembly notes, and stat
 
 ---
 
+## Hardware Bill of Materials (BOM)
+
+| Component | Description | Amazon Link |
+| :--- | :--- | :--- |
+| **ESP32-S3 DevKit N16R8 (3-Pack)** | Dual-Core 16MB Flash / 8MB PSRAM, Dual Type-C, 44 Pins | [https://a.co/d/06Lic7if](https://a.co/d/06Lic7if) |
+| **Aideepen ESP32-CAM-MB (2-Pack)** | OV2640 2MP Wi-Fi Camera + `CH340G` Micro-USB Baseboard | [https://a.co/d/0dX22e7p](https://a.co/d/0dX22e7p) |
+| **BOJACK L298N Motor Driver (4-Pack)** | Dual H-Bridge DC Motor Controller (`HW-095`) | [https://a.co/d/09Fo7jR4](https://a.co/d/09Fo7jR4) |
+| **HC-SR04P Ultrasonic Sensor (2-Pack)** | `3V–5.5V` Wide Voltage, `2cm–450cm` Distance Sensor | [https://a.co/d/0goX3Ql8](https://a.co/d/0goX3Ql8) |
+| **ELEGOO 120pcs Dupont Wire Kit** | `40-pin` Male-to-Female, Male-to-Male & Female-to-Female | [https://a.co/d/0frG2YbZ](https://a.co/d/0frG2YbZ) |
+| **Chanzon SYB-170 Mini Breadboards** | `6-Pack` 170 Tie-Point Solderless Prototype Boards | [https://a.co/d/09p7nb25](https://a.co/d/09p7nb25) |
+
+---
+
 ## 1. Hardware Pinout Mapping
 
 | Component | Component Pin | ESP32-S3 Pin (`YD-ESP32-S3` 44-Pin) | Description |
