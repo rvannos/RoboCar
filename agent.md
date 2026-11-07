@@ -36,21 +36,42 @@ This document provides complete hardware, wiring, firmware, and operational cont
 | **L298N** | `GND` | Car Battery Switch (`-`) + Breadboard `GND` | Shared ground with ESP32-S3 `GND` |
 | **L298N** | `OUT1` / `OUT2` | Rear Drive Motor Wires | Swap `OUT1`/`OUT2` if Forward runs in Reverse |
 | **L298N** | `OUT3` / `OUT4` | Front Steering Motor Wires | Swap `OUT3`/`OUT4` if Left steers Right |
-| **L298N** | `IN1` | `ESP32-S3 GPIO 4` | Drive Forward direction |
-| **L298N** | `IN2` | `ESP32-S3 GPIO 5` | Drive Reverse direction |
-| **L298N** | `IN3` | `ESP32-S3 GPIO 6` | Steer Left command |
-| **L298N** | `IN4` | `ESP32-S3 GPIO 7` | Steer Right command |
-| **L298N** | `ENA` | `ESP32-S3 GPIO 8` | Rear drive speed PWM (`5 kHz`, 8-bit) |
-| **L298N** | `ENB` | `ESP32-S3 GPIO 9` | Front steering PWM cap (`DEFAULT_STEER_PWM = 200`) |
-| **Front HC-SR04P** | `VCC` / `GND` | Breadboard `3V3` / `GND` | Powered from ESP32-S3 `3V3` pin |
-| **Front HC-SR04P** | `TRIG` | `ESP32-S3 GPIO 10` | `10µs` trigger output |
-| **Front HC-SR04P** | `ECHO` | `ESP32-S3 GPIO 11` | Non-blocking `CHANGE` ISR input |
-| **Rear HC-SR04P** | `VCC` / `GND` | Breadboard `3V3` / `GND` | Powered from ESP32-S3 `3V3` pin |
-| **Rear HC-SR04P** | `TRIG` | `ESP32-S3 GPIO 12` | `10µs` trigger output |
-| **Rear HC-SR04P** | `ECHO` | `ESP32-S3 GPIO 13` | Non-blocking `CHANGE` ISR input |
+| **L298N** | `ENA` (🔵 **Blue**) | `ESP32-S3 GPIO 8` (Right column `8` on yellow underside) | Rear drive speed PWM (`5 kHz`, 8-bit) |
+| **L298N** | `IN1` (🟢 **Green**) | `ESP32-S3 GPIO 4` (Right column `4` on yellow underside) | Drive Forward direction |
+| **L298N** | `IN2` (🟡 **Yellow**) | `ESP32-S3 GPIO 5` (Right column `5` on yellow underside) | Drive Reverse direction |
+| **L298N** | `IN3` (🟠 **Orange**) | `ESP32-S3 GPIO 6` (Right column `6` on yellow underside) | Steer Left command |
+| **L298N** | `IN4` (🔴 **Red**) | `ESP32-S3 GPIO 7` (Right column `7` on yellow underside) | Steer Right command |
+| **L298N** | `ENB` (🟤 **Brown**) | `ESP32-S3 GPIO 9` (Right column `9` on yellow underside) | Front steering PWM cap (`DEFAULT_STEER_PWM = 200`) |
+| **Front HC-SR04P** | `Vcc` (🟣 **Purple**) | `ESP32-S3 3V3` (Top-Right Pin 1 on yellow underside) | Powered from first `3V3` pin |
+| **Front HC-SR04P** | `Trig` (⚙️ **Gray**) | `ESP32-S3 GPIO 10` (Right column `10` on yellow underside) | `10µs` trigger output |
+| **Front HC-SR04P** | `Echo` (⚪ **White**) | `ESP32-S3 GPIO 11` (Right column `11` on yellow underside) | Non-blocking `CHANGE` ISR (`INPUT_PULLDOWN`) |
+| **Front HC-SR04P** | `Gnd` (⚫ **Black**) | `ESP32-S3 GND` (Top-Left `GND` on yellow underside) | Sensor ground |
+| **Rear HC-SR04P** | `Vcc` (🟣 **Purple**) | `ESP32-S3 3V3` (Top-Right Pin 2 on yellow underside) | Powered from second `3V3` pin |
+| **Rear HC-SR04P** | `Trig` (⚙️ **Gray**) | `ESP32-S3 GPIO 12` (Right column `12` on yellow underside) | `10µs` trigger output |
+| **Rear HC-SR04P** | `Echo` (⚪ **White**) | `ESP32-S3 GPIO 13` (Right column `13` on yellow underside) | Non-blocking `CHANGE` ISR (`INPUT_PULLDOWN`) |
+| **Rear HC-SR04P** | `Gnd` (⚫ **Black**) | `ESP32-S3 GND` (Bottom-Right `GND` on yellow underside) | Sensor ground |
 
 | **ESP32-CAM** | `5V` | `ESP32-S3 5V0` (Left Pin 21) | Direct `F-F` jumper (MB USB baseboard removed after flashing) |
 | **ESP32-CAM** | `GND` | `ESP32-S3 GND` (Right Pin 22) | Direct `F-F` jumper |
+
+### Proximity Sensor Extension Wire Color Swaps (`docs/sensor_extension_wire_swaps.jpg` & `docs/front_sensor_extension_wire_swaps.jpg`)
+Both `HC-SR04P` sensor harnesses use a 4-wire inline jumper extension so the sensors can stay mounted on the bumpers. Both extensions keep the straight 4-pin ribbon order (`Vcc` – `Trig` – `Echo` – `Gnd`):
+
+#### 1. `Yellow – Orange – Red – Brown` Sensor Extension ([`docs/front_sensor_extension_wire_swaps.jpg`](docs/front_sensor_extension_wire_swaps.jpg))
+| Signal | ESP32-S3 Side Wire Color | ➔ | Extension to Sensor Wire Color | `HC-SR04P` Pin (Left → Right) |
+| :--- | :--- | :---: | :--- | :--- |
+| **`3V3` Power** | 🟣 **Purple** | ➔ | 🟡 **Yellow** | **`Vcc` (Pin 1)** |
+| **`Echo` Signal** | ⚪ **White** | ➔ | 🟠 **Orange** | **`Echo` (Pin 3)** |
+| **`Trig` Signal** | ⚙️ **Gray** | ➔ | 🔴 **Red** | **`Trig` (Pin 2)** |
+| **`GND` Ground** | ⚫ **Black** | ➔ | 🟤 **Brown** | **`Gnd` (Pin 4)** |
+
+#### 2. `Gray – Purple – Blue – Green` Sensor Extension ([`docs/sensor_extension_wire_swaps.jpg`](docs/sensor_extension_wire_swaps.jpg))
+| Signal | ESP32-S3 Side Wire Color | ➔ | Extension to Sensor Wire Color | `HC-SR04P` Pin (Left → Right) |
+| :--- | :--- | :---: | :--- | :--- |
+| **`3V3` Power** | 🟣 **Purple** | ➔ | ⚙️ **Gray** | **`Vcc` (Pin 1)** |
+| **`Trig` Signal** | ⚙️ **Gray** | ➔ | 🟣 **Purple** | **`Trig` (Pin 2)** |
+| **`Echo` Signal** | ⚪ **White** | ➔ | 🔵 **Blue** | **`Echo` (Pin 3)** |
+| **`GND` Ground** | ⚫ **Black** | ➔ | 🟢 **Green** | **`Gnd` (Pin 4)** |
 
 ---
 
@@ -92,9 +113,10 @@ See [`docs/rover_hardware_layout.png`](docs/rover_hardware_layout.png) for the a
   - **Mode 2 — `MANUAL` (Touch D-Pad with 500ms Watchdog):**
     - 9-way directional control (`FWD`, `REV`, `LEFT`, `RIGHT`, and diagonals) with a strict `500ms` heartbeat failsafe watchdog (`WebInterface::isManualWatchdogExpired`).
 - [`src/web_interface.h`](src/web_interface.h) & [`src/web_interface.cpp`](src/web_interface.cpp):
-  - Hosts SoftAP `RC-Rover` (password `rover1234`, IP `192.168.4.1`) and serves the single-page mobile Safari dashboard + `/ws` WebSocket endpoint.
+  - Hosts SoftAP `RC-Rover` (password `rover1234`, IP `192.168.4.1`), joins home Wi-Fi (`WIFI_AP_STA`), and serves the single-page mobile Safari dashboard + `/ws` WebSocket endpoint + `/cam.jpg` and `/cam-status` camera relay endpoints.
+  - Runs `camRelayTask` + `analyzeFrameOnChip` on Core 0 to continuously fetch frames from `192.168.4.2/capture`, validate JPEG SOI/EOI (`0xFF 0xD8` .. `0xFF 0xD9`), serve double-buffered snapshots from `g_camServeBuf`, and compute headless 16-column optical floor-horizon clearances (`jpg2rgb565` at 1/8th scale) calibrated against the Front Sonar.
 - [`src/cam_main.cpp`](src/cam_main.cpp):
-  - Connects the `ESP32-CAM-MB` to `RC-Rover` at `192.168.4.2` and serves `http://192.168.4.2:81/stream` with `Access-Control-Allow-Origin: *` so the dashboard `<canvas>` can perform client-side color-centroid target tracking.
+  - Connects the `ESP32-CAM` to `RC-Rover` at `192.168.4.2`, uses UXGA PSRAM buffer init + QVGA streaming (`CAMERA_GRAB_LATEST`) to prevent `cam_hal: FB-OVF`, and serves `http://192.168.4.2:81/stream` and `http://192.168.4.2/capture` (`Connection: close`, `lru_purge_enable = true`).
 
 ---
 

@@ -77,21 +77,17 @@ void MotorController::stop_drive() {
 }
 
 void MotorController::steer_left(uint8_t pwm) {
-    // Cap steering PWM to prevent overheating 2-wire spring-centered actuator
-    const uint8_t cappedPwm = (pwm > 220) ? 220 : pwm;
     digitalWrite(PIN_IN3, HIGH);
     digitalWrite(PIN_IN4, LOW);
-    writePwmB(cappedPwm);
-    _steerDir = (cappedPwm > 0) ? -1 : 0;
+    writePwmB(pwm);
+    _steerDir = (pwm > 0) ? -1 : 0;
 }
 
 void MotorController::steer_right(uint8_t pwm) {
-    // Cap steering PWM to prevent overheating 2-wire spring-centered actuator
-    const uint8_t cappedPwm = (pwm > 220) ? 220 : pwm;
     digitalWrite(PIN_IN3, LOW);
     digitalWrite(PIN_IN4, HIGH);
-    writePwmB(cappedPwm);
-    _steerDir = (cappedPwm > 0) ? 1 : 0;
+    writePwmB(pwm);
+    _steerDir = (pwm > 0) ? 1 : 0;
 }
 
 void MotorController::steer_center() {

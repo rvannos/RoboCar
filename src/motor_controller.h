@@ -7,21 +7,21 @@ public:
     // L298N Dual H-Bridge Pin Mapping (ESP32-S3)
     static constexpr uint8_t PIN_IN1 = 4; // Drive motor direction forward
     static constexpr uint8_t PIN_IN2 = 5; // Drive motor direction reverse
-    static constexpr uint8_t PIN_IN3 = 6; // Steering left command
-    static constexpr uint8_t PIN_IN4 = 7; // Steering right command
+    static constexpr uint8_t PIN_IN3 = 7; // Steering left command (swapped to match front rack polarity)
+    static constexpr uint8_t PIN_IN4 = 6; // Steering right command (swapped to match front rack polarity)
     static constexpr uint8_t PIN_ENA = 8; // Rear motor PWM speed control
-    static constexpr uint8_t PIN_ENB = 9; // Steering PWM power cap
+    static constexpr uint8_t PIN_ENB = 9; // Steering enable / full-torque drive
 
     // PWM Configuration
     static constexpr uint32_t PWM_FREQ_HZ = 5000;
     static constexpr uint8_t PWM_RESOLUTION_BITS = 8; // 0-255 scale
 
     // Calibration Defaults (0-255 scale)
-    // Toy 2-wire steering actuators run hot if held at 100% duty cycle against stops.
-    // Capped in the 180-220 range (default: 200).
-    static constexpr uint8_t DEFAULT_STEER_PWM = 200;
-    static constexpr uint8_t DEFAULT_CRUISE_PWM = 170;
-    static constexpr uint8_t DEFAULT_REVERSE_PWM = 190;
+    // Because the L298N drops ~2V across its H-bridge transistors, the 2-wire spring-centered
+    // steering actuator needs 100% duty cycle (255 = pure DC, no 5kHz whine) to pull to full lock.
+    static constexpr uint8_t DEFAULT_STEER_PWM = 255;
+    static constexpr uint8_t DEFAULT_CRUISE_PWM = 135;
+    static constexpr uint8_t DEFAULT_REVERSE_PWM = 165;
 
     MotorController() = default;
 

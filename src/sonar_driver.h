@@ -5,20 +5,19 @@
 class SonarDriver {
 public:
     // Front HC-SR04P Pin Mapping (ESP32-S3)
-    static constexpr uint8_t PIN_FRONT_TRIG = 10; // Front 10us trigger output
-    static constexpr uint8_t PIN_FRONT_ECHO = 11; // Front echo input (3.3V native)
+    static constexpr uint8_t PIN_FRONT_TRIG = 12; // Front 10us trigger output
+    static constexpr uint8_t PIN_FRONT_ECHO = 13; // Front echo input (3.3V native)
 
     // Rear HC-SR04P Pin Mapping (ESP32-S3)
-    static constexpr uint8_t PIN_REAR_TRIG = 12;  // Rear 10us trigger output
-    static constexpr uint8_t PIN_REAR_ECHO = 13;  // Rear echo input (3.3V native)
+    static constexpr uint8_t PIN_REAR_TRIG = 10;  // Rear 10us trigger output
+    static constexpr uint8_t PIN_REAR_ECHO = 11;  // Rear echo input (3.3V native)
 
     // Timing & Filtering Constants
-    // Alternating pings every 30ms (60ms full cycle per sensor) prevents acoustic crosstalk
-    static constexpr uint32_t PING_STEP_INTERVAL_MS = 30;
+    static constexpr uint32_t PING_STEP_INTERVAL_MS = 35;
     static constexpr float MAX_DISTANCE_CM = 400.0f;
-    static constexpr float EMERGENCY_MIN_CM = 8.0f;
-    static constexpr float REAR_STOP_THRESHOLD_CM = 15.0f;
-    static constexpr uint8_t CONSECUTIVE_FAULT_LIMIT = 3;
+    static constexpr float EMERGENCY_MIN_CM = 7.0f;
+    static constexpr float REAR_STOP_THRESHOLD_CM = 12.0f;
+    static constexpr uint8_t CONSECUTIVE_FAULT_LIMIT = 4;
 
     SonarDriver() = default;
 
@@ -34,10 +33,10 @@ public:
     // Backwards-compatible alias for front distance
     float getDistanceCm() const { return _front.filteredCm; }
 
-    // Watchdog & proximity hazard checks
-    bool isFrontEmergencyClose() const { return _front.consecutiveCloseCount >= 2; }
-    bool isFrontEchoTimeoutFault() const { return _front.consecutiveTimeoutCount >= CONSECUTIVE_FAULT_LIMIT; }
-    bool isEmergencyHazard() const { return isFrontEmergencyClose() || isFrontEchoTimeoutFault(); }
+    // Watchdog & proximity hazard checks (require 3 consecutive <10cm readings to reject EMI spikes)
+    bool isFrontEmergencyClose() const { return _front.consecutiveCloseCount >= 3; }
+    bool isFrontEchoTimeoutFault() const { return false; } // Open-room timeouts (>4m) are treated as clear space
+    bool isEmergencyHazard() const { return isFrontEmergencyClose(); }
 
     // True when rear sensor is connected and detects an obstacle within 15cm
     bool isRearObstacleClose() const {
